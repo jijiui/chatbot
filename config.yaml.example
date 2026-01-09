@@ -1,0 +1,17 @@
+# OpenAI API key（必填，建议通过环境变量 OPENAI_API_KEY 覆盖）
+api_key: "<your_api_key>"
+
+# 监听并自动回复的联系人昵称（必填）
+friend_nickname: "<联系人的微信昵称>"
+
+# 可选：自定义 OpenAI API base_url（默认官方）
+# base_url: "https://api.openai.com/v1"
+
+# 可选：模型名称，默认 pro 对应的模型，如 gpt-4.1
+# model: "gpt-4.1"
+
+# 可选：失败回复文案
+# failure_reply: "你太美丽了"
+
+# 可选：最小回复间隔（秒），默认 3
+# min_reply_interval: 3

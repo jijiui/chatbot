@@ -1,0 +1,4 @@
+wxautox==39.1.42
+PyYAML>=6.0
+requests>=2.32.0
+tenacity>=9.0.0

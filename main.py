@@ -27,6 +27,7 @@ class AppConfig:
     min_reply_interval: float = 3.0
     request_timeout: int = 15
     max_retries: int = 3
+    system_prompt: Optional[str] = None
 
 
 def load_config(path: Path = Path("config.yaml")) -> AppConfig:
@@ -52,6 +53,7 @@ def load_config(path: Path = Path("config.yaml")) -> AppConfig:
         min_reply_interval=float(raw.get("min_reply_interval", AppConfig.min_reply_interval)),
         request_timeout=int(raw.get("request_timeout", AppConfig.request_timeout)),
         max_retries=int(raw.get("max_retries", AppConfig.max_retries)),
+        system_prompt=raw.get("system_prompt"),
     )
 
 
@@ -71,10 +73,11 @@ class ChatGPTClient:
         retry=retry_if_exception_type(requests.RequestException),
     )
     def _request(self, user_text: str) -> str:
-        payload = {
-            "model": self.config.model,
-            "messages": [{"role": "user", "content": user_text}],
-        }
+        messages = []
+        if self.config.system_prompt:
+            messages.append({"role": "system", "content": self.config.system_prompt})
+        messages.append({"role": "user", "content": user_text})
+        payload = {"model": self.config.model, "messages": messages}
         resp = requests.post(
             self.endpoint,
             headers=self.headers,
